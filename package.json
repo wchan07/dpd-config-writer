@@ -1,0 +1,12 @@
+{
+  "name": "dpd-config-writer",
+  "version": "0.0.0",
+  "description": "Deployd module to create custom events at a specified URL.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wchan07/dpd-config-writer.git"
+  },
+  "author": "",
+  "license": "BSD"
+}
