@@ -8,6 +8,7 @@
  * @type {Resource|exports|module.exports}
  */
 var	fs = require('fs'),
+    jsonfile = require('jsonfile'),
     util		= require('util'),
     path		= require('path'),
     publicDir	= "/../../public",
@@ -39,5 +40,9 @@ ConfigWriter.prototype.handle = function (ctx, next) {
         } catch (er) {
             fs.mkdir(uploadDir);
         }
+
+        var file = uploadDir + '/config.json';
+
+        jsonfile.writeFileSync(file, ctx.query, {flag: 'a'})
     }
 };
