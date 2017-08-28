@@ -7,24 +7,21 @@
  *
  * @type {Resource|exports|module.exports}
  */
-var Resource = require('deployd/lib/resource')
-    , util = require('util');
-
 var	fs = require('fs'),
     util		= require('util'),
     path		= require('path'),
-    publicDir	= "../public",
+    publicDir	= "/../../public",
     debug		= require('debug')('dpd-fileupload'),
     formidable	= require('formidable'),
     md5			= require('md5'),
-    mime		= require('mime');
+    mime		= require('mime'),
+    Collection	= require('deployd/lib/resources/collection');
 
 
 function ConfigWriter(name, options) {
-    console.log('construcor of ConfigWriter')
-    Resource.apply(this, arguments);
+    Collection.apply(this, arguments);
 }
-util.inherits(ConfigWriter, Resource);
+util.inherits(ConfigWriter, Collection);
 module.exports = ConfigWriter;
 
 ConfigWriter.prototype.clientGeneration = true;
@@ -36,7 +33,7 @@ ConfigWriter.prototype.handle = function (ctx, next) {
         self = this;
 
     if(req && req.method === 'GET') {
-        var uploadDir = publicDir + '/test';
+        var uploadDir = path.join(__dirname, publicDir, 'test');
         try {
             fs.statSync(uploadDir).isDirectory();
         } catch (er) {
