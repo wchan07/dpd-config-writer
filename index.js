@@ -28,13 +28,12 @@ module.exports = ConfigWriter;
 ConfigWriter.prototype.clientGeneration = true;
 
 ConfigWriter.prototype.handle = function (ctx, next) {
-    console.log('handle a request query params are ', ctx.query);
     ctx.query.id = ctx.query.id || this.parseId(ctx) || (ctx.body && ctx.body.id);
     var req = ctx.req,
         self = this;
 
     if(req && req.method === 'GET') {
-        var uploadDir = path.join(__dirname, publicDir, ctx.query.domainname.replace(/[\.\-]/ig,'')).toLowerCase();
+        var uploadDir = path.join(__dirname, publicDir, 'config', ctx.query.domainname.replace(/[\.\-]/ig,'')).toLowerCase();
         try {
             fs.statSync(uploadDir).isDirectory();
         } catch (er) {
