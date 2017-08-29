@@ -43,6 +43,7 @@ ConfigWriter.prototype.handle = function (ctx, next) {
 
         var file = uploadDir + '/config.json';
 
-        jsonfile.writeFileSync(file, ctx.query, {flag: 'a'})
+        jsonfile.writeFileSync(file, ctx.query, {spaces: 2});
+        ctx.done({ statusCode: 200, message: "done" });
     }
 };
