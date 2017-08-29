@@ -33,16 +33,28 @@ ConfigWriter.prototype.handle = function (ctx, next) {
         self = this;
 
     if(req && req.method === 'GET') {
-        var uploadDir = path.join(__dirname, publicDir, 'config', ctx.query.domainname.replace(/[\.\-]/ig,'')).toLowerCase();
-        try {
-            fs.statSync(uploadDir).isDirectory();
-        } catch (er) {
-            fs.mkdir(uploadDir);
+        for (var i=0;i<ctx.query.configs.length;i++) {
+            var websiteConfig = ctx.query.configs[i];
+
+            var uploadDir = path.join(
+                __dirname,
+                publicDir,
+                'config',
+                websiteConfig.domainname.replace(/[\.\-]/ig,'')).toLowerCase();
+
+            try {
+                fs.statSync(uploadDir).isDirectory();
+            } catch (er) {
+                fs.mkdir(uploadDir);
+            }
+
+            var file = uploadDir + '/config.json';
+
+            console.log('writing to filesystem for ', websiteConfig.domainname);
+
+            jsonfile.writeFileSync(file, websiteConfig, {spaces: 2});
         }
 
-        var file = uploadDir + '/config.json';
-
-        jsonfile.writeFileSync(file, ctx.query, {spaces: 2});
         ctx.done({ statusCode: 200, message: "done" });
     }
 };
