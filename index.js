@@ -29,13 +29,11 @@ ConfigWriter.prototype.clientGeneration = true;
 
 ConfigWriter.prototype.handle = function (ctx, next) {
     ctx.query.id = ctx.query.id || this.parseId(ctx) || (ctx.body && ctx.body.id);
-    var req = ctx.req,
-        self = this;
+    var req = ctx.req;
 
-    if(req && req.method === 'GET') {
-        for (var i=0;i<ctx.query.configs.length;i++) {
-            var websiteConfig = ctx.query.configs[i];
-
+    if(req && ( req.method === 'POST' || req.method === 'PUT') ) {
+        for (var i=0;i<ctx.body.configs.length;i++) {
+            var websiteConfig = ctx.body.configs[i];
             var uploadDir = path.join(
                 __dirname,
                 publicDir,
